@@ -2,16 +2,27 @@ const charsContainer = document.querySelector ('chars-container');
 const API = 'https://rickandmortyapi.com/api';
 
 
-async function Characters({name, species, gender, status, page = 1}) {
+async function getCharacters({name, species, gender, status, page = 1}) {
     
-    const response = await fettch(`'#{API}/caracter?name=${name}&species=${species}&status=${status}&gender={}${gender}&page=${page}'`)
+    const response = await fetch(`'#{API}/caracter?name=${name}&species=${species}&status=${status}&gender={}${gender}&page=${page}'`)
 
     const characters = await response.json()
 
 
-    return characters.result
+    return characters.results
 }
 
+
+const defaultFilters = {
+    
+    name:'',
+    species:'',
+    gender:'',
+    status:'',
+    page:'',
+
+
+}
 async function render({characters}) {
     characters.forEach((character) => {
 
@@ -27,4 +38,12 @@ async function render({characters}) {
     
 }
 
-render ()
+
+
+async function main(){
+
+    const characters = await getCharacters(defaultFilters)
+    render({characters})
+}
+
+main()
